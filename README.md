@@ -65,7 +65,7 @@ allure --version
 └── .github/workflows/test.yml # push 自动回归 -> Allure -> Pages
 ```
 
-## 设计决策（面试能脱稿说的版本）
+## 设计决策
 
 **1. 请求封装层：不让用例里出现重复劳动**
 用例里只会写 `resp = clients["user"].get("/api/orders")`，不会有：
@@ -88,7 +88,7 @@ allure --version
 **4. 为什么先生成中间 YAML 而不是让 AI 直接写 .py**
 YAML 是人和机器都能审的格式：AI 输出的用例草稿先写成 YAML，然后**人工逐条审核**（删掉"只断状态码"的废用例、删掉"让 AI 重复下单 100 次"的危险用例），最后 `reviewed: true` 才会被 pytest 执行。直接让 AI 写 `.py`，审查成本太高，而且很难统一约束断言。
 
-## 我踩过的坑（真实经历，面试加分）
+## 踩坑记录
 
 **坑 1：xdist 下被测服务生命周期**
 一开始没把服务启动逻辑放到 `pytest_configure` 里，而是放在 session fixture 里。结果一跑 `pytest -n 4`，4 个 worker 进程**各自启动了一个服务**（4 个进程抢端口），还互相把对方的服务杀掉，导致 ConnectionRefused。

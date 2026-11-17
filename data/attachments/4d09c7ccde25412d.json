@@ -1,0 +1,18 @@
+{
+  "method": "POST",
+  "url": "http://127.0.0.1:8000/api/cart/items",
+  "headers": {
+    "User-Agent": "python-requests/2.34.2",
+    "Accept-Encoding": "gzip, deflate",
+    "Accept": "application/json",
+    "Connection": "keep-alive",
+    "Authorization": "***",
+    "Content-Length": "31",
+    "Content-Type": "application/json"
+  },
+  "params": null,
+  "json": {
+    "productId": 4,
+    "quantity": 1
+  }
+}

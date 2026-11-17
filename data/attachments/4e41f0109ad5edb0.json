@@ -1,0 +1,9 @@
+{
+  "status_code": 409,
+  "elapsed_ms": 1.9,
+  "body": {
+    "code": 3002,
+    "message": "订单当前状态 CANCELED 不允许取消",
+    "data": null
+  }
+}

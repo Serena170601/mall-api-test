@@ -880,6 +880,16 @@
 3. 401 与 403 必须区分：未登录是 401，登录了但没权限是 403；
 4. 422 由框架抛出，响应体是 `{"detail": [...]}`，不能套用上面的信封断言。
 
+## OpenAPI 里没有、必须额外喂给模型的信息
+
+`docs/openapi.json` 只描述「结构」，不描述「业务语义」，抽取出的 `data/generated/operations.yaml` 存在三处缺口：
+
+| 缺口 | 现象 | 对生成用例的影响 | 兜底 |
+| --- | --- | --- | --- |
+| 业务错误码缺失 | spec 里只有 200 / 422 两个响应，1001/2002/3001 等业务码完全没有定义 | 模型只能臆造 code，或退化成只断言 200 | 本文件作为独立上下文拼进 prompt；脚本丢弃只断言状态码的草稿 |
+| 错误响应没有 schema | 除 422 外，错误分支要么没有 `responses` 条目，要么是 `additionalProperties: true` | 模型无法断言错误响应结构 | 用例统一 `schema: error`（envelope 结构），由 `config/schemas/error.json` 校验 |
+| 成功响应过于笼统 | 几乎所有 200 都是 `type: object, additionalProperties: true`，字段名与类型不可见；参数 schema 为空对象、无 `example` | 模型不知道 `data.items[].price` 这类真实字段，容易编造 `productName` | prompt 里只允许引用接口定义中出现的字段；字段级错误靠人工审核拦截 |
+
 
 ## 输出 JSON 结构
 {"cases": [{

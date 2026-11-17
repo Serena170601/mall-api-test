@@ -1,37 +1,52 @@
-# 第 3 周 tools/gen_cases.py 的产出示例：AI 草稿 + 人工审核结果
-# reviewed: true 才会被 tests/test_ai_cases.py 执行；needs_review: true 的草稿在报告里显示为 skip
+# tools/gen_cases.py 生成 + 人工逐条审核后的结果
+# 本轮模型共生成 88 条草稿，审核后保留 15 条：11 条 reviewed: true 进入回归，4 条保留为草稿（skip）
+# 审核依据：每条 reviewed: true 的期望值都对本机靶场实测过，不采信模型自述
 cases:
-  - id: ai_product_size_over_limit
-    title: 商品列表 size=51 超出范围
-    source_operation: list_products_api_products_get
+  # ---------- 审核通过：鉴权与越权（均为实测结论） ----------
+  - id: ai_profile_no_token
+    title: 未登录访问个人信息返回 401
+    source_operation: profile_api_auth_profile_get
     needs_review: false
     reviewed: true
     reviewed_by: manual
     method: GET
-    path: /api/products
+    path: /api/auth/profile
     auth: anonymous
-    params: { size: 51 }
     expected:
-      status: 400
-      code: 1101
+      status: 401
+      code: 4001
       schema: error
 
-  - id: ai_user_cannot_read_admin_orders
-    title: 普通用户访问管理端订单列表
-    source_operation: admin_list_orders_api_admin_orders_get
+  - id: ai_profile_bad_token
+    title: 伪造 token 访问个人信息返回 4002
+    source_operation: profile_api_auth_profile_get
     needs_review: false
     reviewed: true
     reviewed_by: manual
     method: GET
-    path: /api/admin/orders
-    auth: user
+    path: /api/auth/profile
+    auth: bad_token
     expected:
-      status: 403
-      code: 4003
+      status: 401
+      code: 4002
       schema: error
 
-  - id: ai_cart_add_without_token
-    title: 未登录加入购物车
+  - id: ai_cart_get_no_token
+    title: 未登录查看购物车返回 401
+    source_operation: get_cart_api_cart_get
+    needs_review: false
+    reviewed: true
+    reviewed_by: manual
+    method: GET
+    path: /api/cart
+    auth: anonymous
+    expected:
+      status: 401
+      code: 4001
+      schema: error
+
+  - id: ai_add_cart_item_no_token
+    title: 未登录加入购物车返回 401
     source_operation: add_cart_item_api_cart_items_post
     needs_review: false
     reviewed: true
@@ -45,15 +60,163 @@ cases:
       code: 4001
       schema: error
 
-  - id: ai_duplicate_pay_again
-    title: 重复支付同一订单（需要预置已支付订单，当前脚本无法自证）
+  - id: ai_admin_orders_forbidden
+    title: 普通用户访问管理端订单列表返回 403
+    source_operation: admin_list_orders_api_admin_orders_get
+    needs_review: false
+    reviewed: true
+    reviewed_by: manual
+    method: GET
+    path: /api/admin/orders
+    auth: user
+    expected:
+      status: 403
+      code: 4003
+      schema: error
+
+  - id: ai_admin_stats_forbidden
+    title: 普通用户访问管理端统计返回 403
+    source_operation: admin_stats_api_admin_stats_get
+    needs_review: false
+    reviewed: true
+    reviewed_by: manual
+    method: GET
+    path: /api/admin/stats
+    auth: user
+    expected:
+      status: 403
+      code: 4003
+      schema: error
+
+  # ---------- 审核通过：参数边界与不存在资源 ----------
+  - id: ai_products_size_over_max
+    title: 商品列表 size=51 超出上限返回 400/1101
+    source_operation: list_products_api_products_get
+    needs_review: false
+    reviewed: true
+    reviewed_by: manual
+    method: GET
+    path: /api/products
+    auth: anonymous
+    params: { size: 51 }
+    expected:
+      status: 400
+      code: 1101
+      schema: error
+
+  - id: ai_products_page_zero
+    title: 商品列表 page=0 非法返回 400/1100
+    source_operation: list_products_api_products_get
+    needs_review: false
+    reviewed: true
+    reviewed_by: manual
+    method: GET
+    path: /api/products
+    auth: anonymous
+    params: { page: 0 }
+    expected:
+      status: 400
+      code: 1100
+      schema: error
+
+  - id: ai_get_product_not_found
+    title: 查询不存在的商品返回 404/4004
+    source_operation: get_product_api_products_product_id_get
+    needs_review: false
+    reviewed: true
+    reviewed_by: manual
+    method: GET
+    path: /api/products/999
+    auth: anonymous
+    expected:
+      status: 404
+      code: 4004
+      schema: error
+
+  - id: ai_get_order_not_found
+    title: 查询不存在的订单返回 404/4005
+    source_operation: get_order_api_orders_order_id_get
+    needs_review: false
+    reviewed: true
+    reviewed_by: manual
+    method: GET
+    path: /api/orders/99999
+    auth: user
+    expected:
+      status: 404
+      code: 4005
+      schema: error
+
+  - id: ai_add_cart_item_stock_insufficient
+    title: 加入购物车数量超过库存返回 200/2002
+    source_operation: add_cart_item_api_cart_items_post
+    needs_review: false
+    reviewed: true
+    reviewed_by: manual
+    method: POST
+    path: /api/cart/items
+    auth: user
+    json: { productId: 1, quantity: 99 }
+    expected:
+      status: 200
+      code: 2002
+      schema: error
+
+  # ---------- 保留草稿：依赖前置状态或会破坏数据，不进入自动回归 ----------
+  - id: ai_create_order_success
+    title: 正常创建订单
+    source_operation: create_order_api_orders_post
+    needs_review: true
+    reviewed: false
+    review_reason: 会真实扣减库存且没有清理逻辑，重复执行会污染数据；同类场景由 test_order.py 的 created_order fixture 覆盖
+    method: POST
+    path: /api/orders
+    auth: user
+    json: { items: [{ productId: 1, quantity: 1 }], addressId: 1 }
+    expected:
+      status: 200
+      code: 0
+      schema: order
+
+  - id: ai_pay_order_success
+    title: 支付订单
     source_operation: pay_order_api_orders_order_id_pay_post
     needs_review: true
     reviewed: false
+    review_reason: 需要预置一条 CREATED 订单，AI 无法自证；人工用例中用 paid_order fixture 覆盖
     method: POST
-    path: /api/orders/10001/pay
+    path: /api/orders/1/pay
+    auth: user
+    expected:
+      status: 200
+      code: 0
+      schema: order
+
+  - id: ai_pay_order_repeat_conflict
+    title: 重复支付返回 409/3001
+    source_operation: pay_order_api_orders_order_id_pay_post
+    needs_review: true
+    reviewed: false
+    review_reason: 需要预置已支付订单，草稿里的 order 1 在干净数据下是 404，不能直接执行
+    method: POST
+    path: /api/orders/1/pay
     auth: user
     expected:
       status: 409
       code: 3001
+      schema: error
+
+  - id: ai_login_rate_limit
+    title: 连续登录失败触发 429 限流
+    source_operation: login_api_auth_login_post
+    needs_review: true
+    reviewed: false
+    review_reason: 单条用例无法凑够 5 次失败，且会污染同会话其他登录用例的限流计数
+    method: POST
+    path: /api/auth/login
+    auth: anonymous
+    json: { username: alice, password: wrong-password }
+    expected:
+      status: 429
+      code: 4029
       schema: error

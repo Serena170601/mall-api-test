@@ -25,6 +25,13 @@ from pathlib import Path
 import requests
 import yaml
 
+try:  # 企业代理/IDE 会替换 TLS 证书链，改用系统证书库校验（未安装则退回 certifi）
+    import truststore
+
+    truststore.inject_into_ssl()
+except ImportError:
+    pass
+
 ROOT = Path(__file__).resolve().parents[1]
 OPS_PATH = ROOT / "data" / "generated" / "operations.yaml"
 OUT_PATH = ROOT / "data" / "generated" / "ai_cases.yaml"
@@ -130,7 +137,8 @@ def sanitize(raw: dict, operations: list[dict]) -> tuple[list[dict], list[str]]:
             dropped.append(f"{case_id}: 编造 path {case.get('path')!r}")
             continue
         expected = case.get("expected") or {}
-        if "code" not in expected and not expected.get("schema"):
+        # 注意：模型常把 code 写成 null 占位，不能用 "code" in expected 判断
+        if expected.get("code") is None and not expected.get("schema"):
             dropped.append(f"{case_id}: 只断言状态码，缺少业务断言")
             continue
         if expected.get("schema") not in KNOWN_SCHEMAS:

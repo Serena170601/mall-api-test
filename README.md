@@ -6,7 +6,7 @@
 ![api-test](https://github.com/<OWNER>/mall-api-test/actions/workflows/test.yml/badge.svg)
 
 - 在线报告（GitHub Pages）：https://<OWNER>.github.io/mall-api-test/
-- 用例规模：33 条（32 通过 + 1 条待审核 AI 草稿），覆盖登录 / 查询 / 下单 / 越权 / 状态机 / 限流
+- 用例规模：52 条（48 通过 + 4 条待审核的 AI 草稿），覆盖登录 / 查询 / 购物车 / 下单 / 越权 / 状态机 / 限流
 
 ## 快速开始
 
@@ -124,6 +124,8 @@ python tools/gen_cases.py                       # 生成 ai_cases.yaml（全部 
 产物默认全部 `reviewed: false`，`tests/test_ai_cases.py` 会把这些草稿显示为 skip；人工逐条审核后把 `reviewed` 改成 `true` 才会真正执行。
 
 脚本内置三道闸门：编造 `path` 的草稿直接丢弃、只断言状态码的草稿直接丢弃、`schema` 不在白名单时置空并标记待审。
+
+本轮实测结果与流程说明见 [docs/ai_case_pipeline.md](docs/ai_case_pipeline.md)，生成的 8 类失效模式见 [docs/ai_failure_modes.md](docs/ai_failure_modes.md)。
 
 ## 已知边界
 

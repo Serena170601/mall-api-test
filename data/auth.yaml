@@ -1,0 +1,81 @@
+# 认证类用例：登录会写限流计数，标记 write 串行执行
+cases:
+  - id: login_success
+    title: 正确账号密码返回 token
+    method: POST
+    path: /api/auth/login
+    auth: anonymous
+    json: { username: alice, password: alice123 }
+    expected:
+      status: 200
+      code: 0
+      schema: login
+      jsonpath:
+        $.data.username: alice
+        $.data.role: user
+      not_null: ["$.data.token", "$.data.userId"]
+
+  - id: login_wrong_password
+    title: 密码错误返回 HTTP 200 + 业务码 1001
+    method: POST
+    path: /api/auth/login
+    auth: anonymous
+    json: { username: alice, password: wrong-password }
+    expected:
+      status: 200
+      code: 1001
+      schema: error
+
+  - id: login_unknown_user
+    title: 用户不存在返回业务码 1001
+    method: POST
+    path: /api/auth/login
+    auth: anonymous
+    json: { username: nobody-here, password: whatever }
+    expected:
+      status: 200
+      code: 1001
+      schema: error
+
+  - id: login_missing_password
+    title: 缺少密码字段触发框架 422 校验
+    method: POST
+    path: /api/auth/login
+    auth: anonymous
+    json: { username: alice }
+    expected:
+      status: 422
+      detail: true
+
+  - id: profile_without_token
+    title: 未携带 token 返回 401/4001
+    method: GET
+    path: /api/auth/profile
+    auth: anonymous
+    expected:
+      status: 401
+      code: 4001
+      schema: error
+
+  - id: profile_bad_token
+    title: 伪造 token 返回 401/4002
+    method: GET
+    path: /api/auth/profile
+    auth: bad_token
+    expected:
+      status: 401
+      code: 4002
+      schema: error
+
+  - id: profile_ok
+    title: 登录态可读取个人信息
+    method: GET
+    path: /api/auth/profile
+    auth: user
+    expected:
+      status: 200
+      code: 0
+      schema: profile
+      jsonpath:
+        $.data.username: alice
+        $.data.role: user

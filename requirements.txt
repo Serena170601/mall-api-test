@@ -1,0 +1,11 @@
+requests==2.34.2
+PyYAML==6.0.3
+pytest==9.2.0
+pytest-xdist==3.8.0
+allure-pytest==2.16.2
+jsonschema==4.26.0
+jsonpath-ng==1.16.0
+openapi-spec-validator==0.9.0
+fastapi==0.162.7
+uvicorn==0.54.0
+pydantic==2.14.3

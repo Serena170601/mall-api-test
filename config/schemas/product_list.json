@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "product": {
+      "type": "object",
+      "required": ["id", "name", "price", "stock", "onSale", "category"],
+      "properties": {
+        "id": { "type": "integer", "minimum": 1 },
+        "name": { "type": "string", "minLength": 1 },
+        "price": { "type": "number", "minimum": 0 },
+        "stock": { "type": "integer", "minimum": 0 },
+        "onSale": { "type": "boolean" },
+        "category": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "type": "object",
+  "required": ["code", "message", "data"],
+  "properties": {
+    "code": { "type": "integer" },
+    "message": { "type": "string" },
+    "data": {
+      "type": "object",
+      "required": ["total", "page", "size", "items"],
+      "properties": {
+        "total": { "type": "integer", "minimum": 0 },
+        "page": { "type": "integer", "minimum": 1 },
+        "size": { "type": "integer", "minimum": 1 },
+        "items": { "type": "array", "items": { "$ref": "#/definitions/product" } }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

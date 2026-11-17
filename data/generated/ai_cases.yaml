@@ -1,0 +1,59 @@
+# 第 3 周 tools/gen_cases.py 的产出示例：AI 草稿 + 人工审核结果
+# reviewed: true 才会被 tests/test_ai_cases.py 执行；needs_review: true 的草稿在报告里显示为 skip
+cases:
+  - id: ai_product_size_over_limit
+    title: 商品列表 size=51 超出范围
+    source_operation: list_products_api_products_get
+    needs_review: false
+    reviewed: true
+    reviewed_by: manual
+    method: GET
+    path: /api/products
+    auth: anonymous
+    params: { size: 51 }
+    expected:
+      status: 400
+      code: 1101
+      schema: error
+
+  - id: ai_user_cannot_read_admin_orders
+    title: 普通用户访问管理端订单列表
+    source_operation: admin_list_orders_api_admin_orders_get
+    needs_review: false
+    reviewed: true
+    reviewed_by: manual
+    method: GET
+    path: /api/admin/orders
+    auth: user
+    expected:
+      status: 403
+      code: 4003
+      schema: error
+
+  - id: ai_cart_add_without_token
+    title: 未登录加入购物车
+    source_operation: add_cart_item_api_cart_items_post
+    needs_review: false
+    reviewed: true
+    reviewed_by: manual
+    method: POST
+    path: /api/cart/items
+    auth: anonymous
+    json: { productId: 1, quantity: 1 }
+    expected:
+      status: 401
+      code: 4001
+      schema: error
+
+  - id: ai_duplicate_pay_again
+    title: 重复支付同一订单（需要预置已支付订单，当前脚本无法自证）
+    source_operation: pay_order_api_orders_order_id_pay_post
+    needs_review: true
+    reviewed: false
+    method: POST
+    path: /api/orders/10001/pay
+    auth: user
+    expected:
+      status: 409
+      code: 3001
+      schema: error

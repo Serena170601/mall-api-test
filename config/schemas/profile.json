@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["code", "message", "data"],
+  "properties": {
+    "code": { "type": "integer" },
+    "message": { "type": "string" },
+    "data": {
+      "type": "object",
+      "required": ["userId", "username", "nickname", "role"],
+      "properties": {
+        "userId": { "type": "integer" },
+        "username": { "type": "string" },
+        "nickname": { "type": "string" },
+        "role": { "type": "string", "enum": ["user", "admin"] }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

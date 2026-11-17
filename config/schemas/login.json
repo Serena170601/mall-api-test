@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["code", "message", "data"],
+  "properties": {
+    "code": { "type": "integer" },
+    "message": { "type": "string" },
+    "data": {
+      "type": "object",
+      "required": ["token", "userId", "username", "role", "expiresIn"],
+      "properties": {
+        "token": { "type": "string", "minLength": 20 },
+        "userId": { "type": "integer" },
+        "username": { "type": "string" },
+        "role": { "type": "string", "enum": ["user", "admin"] },
+        "expiresIn": { "type": "integer", "minimum": 60 }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

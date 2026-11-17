@@ -1,0 +1,125 @@
+# 商品查询类用例：纯读，可并行
+cases:
+  - id: product_list_default
+    title: 默认分页返回在售商品
+    method: GET
+    path: /api/products
+    auth: anonymous
+    params: { page: 1, size: 2 }
+    expected:
+      status: 200
+      code: 0
+      schema: product_list
+      jsonpath:
+        $.data.page: 1
+        $.data.size: 2
+        $.data.total: 3
+      length:
+        $.data.items: 2
+      not_null: ["$.data.items[0].id", "$.data.items[0].name"]
+
+  - id: product_list_second_page
+    title: 第二页只剩 1 条
+    method: GET
+    path: /api/products
+    auth: anonymous
+    params: { page: 2, size: 2 }
+    expected:
+      status: 200
+      code: 0
+      schema: product_list
+      jsonpath:
+        $.data.page: 2
+      length:
+        $.data.items: 1
+
+  - id: product_list_keyword
+    title: 关键字搜索命中单个商品
+    method: GET
+    path: /api/products
+    auth: anonymous
+    params: { keyword: 键盘 }
+    expected:
+      status: 200
+      code: 0
+      schema: product_list
+      jsonpath:
+        $.data.total: 1
+        $.data.items[0].id: 2
+
+  - id: product_list_page_invalid
+    title: page=0 触发参数校验业务码
+    method: GET
+    path: /api/products
+    auth: anonymous
+    params: { page: 0 }
+    expected:
+      status: 400
+      code: 1100
+      schema: error
+
+  - id: product_list_size_invalid
+    title: size 超出 1-50 范围
+    method: GET
+    path: /api/products
+    auth: anonymous
+    params: { size: 100 }
+    expected:
+      status: 400
+      code: 1101
+      schema: error
+
+  - id: product_detail_ok
+    title: 商品详情字段完整
+    method: GET
+    path: /api/products/1
+    auth: anonymous
+    expected:
+      status: 200
+      code: 0
+      schema: product
+      jsonpath:
+        $.data.id: 1
+        $.data.price: 999.0
+      not_null: ["$.data.name", "$.data.category"]
+
+  - id: product_detail_not_found
+    title: 不存在的商品返回 404 与业务码 4004
+    method: GET
+    path: /api/products/999
+    auth: anonymous
+    expected:
+      status: 404
+      code: 4004
+      schema: error
+
+  # ===== 新增边界用例 =====
+  - id: product_list_size_max_bound
+    title: size=50 合法上限（接口允许 1-50）
+    method: GET
+    path: /api/products
+    auth: anonymous
+    params: { page: 1, size: 50 }
+    expected:
+      status: 200
+      code: 0
+      schema: product_list
+      jsonpath:
+        $.data.page: 1
+      length:
+        $.data.items: 3   # 在售商品总共 3 个，全返回
+
+  - id: product_list_keyword_no_match
+    title: 关键字搜不到商品时 total=0
+    method: GET
+    path: /api/products
+    auth: anonymous
+    params: { keyword: 完全不存在的商品xyz }
+    expected:
+      status: 200
+      code: 0
+      schema: product_list
+      jsonpath:
+        $.data.total: 0
+      length:
+        $.data.items: 0

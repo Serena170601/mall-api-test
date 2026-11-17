@@ -1,0 +1,80 @@
+name: api-test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 1 * * *"   # 每天 09:00 (UTC+8) 定时回归，证明流水线不是摆设
+
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # 靶场随仓库分发，CI 里直接起服务；真实项目此处替换为被测环境地址
+      - name: Start system under test
+        run: |
+          MALL_MOCK_TEST_MODE=1 nohup python -m uvicorn target_service.app:app \
+            --host 127.0.0.1 --port 8000 > sut.log 2>&1 &
+          for i in $(seq 1 30); do
+            if curl -sf http://127.0.0.1:8000/health > /dev/null; then break; fi
+            sleep 1
+          done
+          curl -sf http://127.0.0.1:8000/health
+
+      # 执行与报告分离：先产出 allure-results 原始数据
+      - name: Run pytest
+        run: pytest -q
+
+      - name: Install Allure CLI
+        if: always()
+        run: |
+          curl -sSL -o allure.zip \
+            https://github.com/allure-framework/allure2/releases/download/2.29.0/allure-2.29.0.zip
+          unzip -q allure.zip -d "$RUNNER_TEMP"
+          echo "$RUNNER_TEMP/allure-2.29.0/bin" >> "$GITHUB_PATH"
+
+      # 测试失败也要出报告，否则 CI 红了却看不到失败详情
+      - name: Generate Allure report
+        if: always()
+        run: |
+          allure generate allure-results -o allure-report --clean
+          touch allure-report/.nojekyll   # 防止 GitHub Pages 的 Jekyll 处理干扰静态资源
+
+      - name: Upload report artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: allure-report
+          retention-days: 14
+
+      - name: Deploy report to GitHub Pages
+        if: always() && github.ref == 'refs/heads/main'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./allure-report
+          publish_branch: gh-pages
+
+      - name: Upload SUT log when failed
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sut-log
+          path: sut.log

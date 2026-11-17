@@ -1,0 +1,543 @@
+source:
+  title: mini-mall mock
+  version: 1.0.0
+auth_notes: '先 POST /api/auth/login 获取 token，后续接口需 Authorization: Bearer <token>；业务失败返回
+  HTTP 200 + code!=0，鉴权/越权/限流分别用 401/403/429。'
+operations:
+- operationId: reset_state_api__test_reset_post
+  method: POST
+  path: /api/_test/reset
+  summary: Reset State
+  parameters: []
+  requestBody: null
+  responses:
+    '200':
+      type: object
+      additionalProperties: true
+  auth: 'Authorization: Bearer <token>'
+- operationId: admin_list_orders_api_admin_orders_get
+  method: GET
+  path: /api/admin/orders
+  summary: Admin List Orders
+  parameters:
+  - name: authorization
+    in: header
+    required: false
+    schema: {}
+  requestBody: null
+  responses:
+    '200':
+      type: object
+      additionalProperties: true
+    '422':
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            type: object
+            required: &id001
+            - loc
+            - msg
+            - type
+            properties:
+              loc:
+                type: array
+                items: {}
+              msg:
+                type: string
+              type:
+                type: string
+              input: {}
+              ctx:
+                type: object
+  auth: 'Authorization: Bearer <token>'
+- operationId: admin_stats_api_admin_stats_get
+  method: GET
+  path: /api/admin/stats
+  summary: Admin Stats
+  parameters:
+  - name: authorization
+    in: header
+    required: false
+    schema: {}
+  requestBody: null
+  responses:
+    '200':
+      type: object
+      additionalProperties: true
+    '422':
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            type: object
+            required: *id001
+            properties:
+              loc:
+                type: array
+                items: {}
+              msg:
+                type: string
+              type:
+                type: string
+              input: {}
+              ctx:
+                type: object
+  auth: 'Authorization: Bearer <token>'
+- operationId: login_api_auth_login_post
+  method: POST
+  path: /api/auth/login
+  summary: Login
+  parameters: []
+  requestBody:
+    type: object
+    required:
+    - username
+    - password
+    properties:
+      username:
+        type: string
+        minLength: 1
+        maxLength: 32
+      password:
+        type: string
+        minLength: 1
+        maxLength: 64
+  responses:
+    '200':
+      type: object
+      additionalProperties: true
+    '422':
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            type: object
+            required: *id001
+            properties:
+              loc:
+                type: array
+                items: {}
+              msg:
+                type: string
+              type:
+                type: string
+              input: {}
+              ctx:
+                type: object
+  auth: none
+- operationId: profile_api_auth_profile_get
+  method: GET
+  path: /api/auth/profile
+  summary: Profile
+  parameters:
+  - name: authorization
+    in: header
+    required: false
+    schema: {}
+  requestBody: null
+  responses:
+    '200':
+      type: object
+      additionalProperties: true
+    '422':
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            type: object
+            required: *id001
+            properties:
+              loc:
+                type: array
+                items: {}
+              msg:
+                type: string
+              type:
+                type: string
+              input: {}
+              ctx:
+                type: object
+  auth: 'Authorization: Bearer <token>'
+- operationId: get_cart_api_cart_get
+  method: GET
+  path: /api/cart
+  summary: Get Cart
+  parameters:
+  - name: authorization
+    in: header
+    required: false
+    schema: {}
+  requestBody: null
+  responses:
+    '200':
+      type: object
+      additionalProperties: true
+    '422':
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            type: object
+            required: *id001
+            properties:
+              loc:
+                type: array
+                items: {}
+              msg:
+                type: string
+              type:
+                type: string
+              input: {}
+              ctx:
+                type: object
+  auth: 'Authorization: Bearer <token>'
+- operationId: add_cart_item_api_cart_items_post
+  method: POST
+  path: /api/cart/items
+  summary: Add Cart Item
+  parameters:
+  - name: authorization
+    in: header
+    required: false
+    schema: {}
+  requestBody:
+    type: object
+    required:
+    - productId
+    - quantity
+    properties:
+      productId:
+        type: integer
+        minimum: 1.0
+      quantity:
+        type: integer
+        minimum: 1.0
+        maximum: 99.0
+  responses:
+    '200':
+      type: object
+      additionalProperties: true
+    '422':
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            type: object
+            required: *id001
+            properties:
+              loc:
+                type: array
+                items: {}
+              msg:
+                type: string
+              type:
+                type: string
+              input: {}
+              ctx:
+                type: object
+  auth: 'Authorization: Bearer <token>'
+- operationId: create_order_api_orders_post
+  method: POST
+  path: /api/orders
+  summary: Create Order
+  parameters:
+  - name: authorization
+    in: header
+    required: false
+    schema: {}
+  requestBody:
+    type: object
+    required:
+    - items
+    properties:
+      items:
+        type: array
+        items:
+          type: object
+          required:
+          - productId
+          - quantity
+          properties:
+            productId:
+              type: integer
+            quantity:
+              type: integer
+              minimum: 1.0
+              maximum: 99.0
+      addressId:
+        type: integer
+        default: 1
+  responses:
+    '200':
+      type: object
+      additionalProperties: true
+    '422':
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            type: object
+            required: *id001
+            properties:
+              loc:
+                type: array
+                items: {}
+              msg:
+                type: string
+              type:
+                type: string
+              input: {}
+              ctx:
+                type: object
+  auth: 'Authorization: Bearer <token>'
+- operationId: list_my_orders_api_orders_get
+  method: GET
+  path: /api/orders
+  summary: List My Orders
+  parameters:
+  - name: authorization
+    in: header
+    required: false
+    schema: {}
+  requestBody: null
+  responses:
+    '200':
+      type: object
+      additionalProperties: true
+    '422':
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            type: object
+            required: *id001
+            properties:
+              loc:
+                type: array
+                items: {}
+              msg:
+                type: string
+              type:
+                type: string
+              input: {}
+              ctx:
+                type: object
+  auth: 'Authorization: Bearer <token>'
+- operationId: get_order_api_orders__order_id__get
+  method: GET
+  path: /api/orders/{order_id}
+  summary: Get Order
+  parameters:
+  - name: order_id
+    in: path
+    required: true
+    schema:
+      type: integer
+  - name: authorization
+    in: header
+    required: false
+    schema: {}
+  requestBody: null
+  responses:
+    '200':
+      type: object
+      additionalProperties: true
+    '422':
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            type: object
+            required: *id001
+            properties:
+              loc:
+                type: array
+                items: {}
+              msg:
+                type: string
+              type:
+                type: string
+              input: {}
+              ctx:
+                type: object
+  auth: 'Authorization: Bearer <token>'
+- operationId: cancel_order_api_orders__order_id__delete
+  method: DELETE
+  path: /api/orders/{order_id}
+  summary: Cancel Order
+  parameters:
+  - name: order_id
+    in: path
+    required: true
+    schema:
+      type: integer
+  - name: authorization
+    in: header
+    required: false
+    schema: {}
+  requestBody: null
+  responses:
+    '200':
+      type: object
+      additionalProperties: true
+    '422':
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            type: object
+            required: *id001
+            properties:
+              loc:
+                type: array
+                items: {}
+              msg:
+                type: string
+              type:
+                type: string
+              input: {}
+              ctx:
+                type: object
+  auth: 'Authorization: Bearer <token>'
+- operationId: pay_order_api_orders__order_id__pay_post
+  method: POST
+  path: /api/orders/{order_id}/pay
+  summary: Pay Order
+  parameters:
+  - name: order_id
+    in: path
+    required: true
+    schema:
+      type: integer
+  - name: authorization
+    in: header
+    required: false
+    schema: {}
+  requestBody: null
+  responses:
+    '200':
+      type: object
+      additionalProperties: true
+    '422':
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            type: object
+            required: *id001
+            properties:
+              loc:
+                type: array
+                items: {}
+              msg:
+                type: string
+              type:
+                type: string
+              input: {}
+              ctx:
+                type: object
+  auth: 'Authorization: Bearer <token>'
+- operationId: list_products_api_products_get
+  method: GET
+  path: /api/products
+  summary: List Products
+  parameters:
+  - name: keyword
+    in: query
+    required: false
+    schema: {}
+  - name: page
+    in: query
+    required: false
+    schema:
+      type: integer
+      default: 1
+  - name: size
+    in: query
+    required: false
+    schema:
+      type: integer
+      default: 10
+  requestBody: null
+  responses:
+    '200':
+      type: object
+      additionalProperties: true
+    '422':
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            type: object
+            required: *id001
+            properties:
+              loc:
+                type: array
+                items: {}
+              msg:
+                type: string
+              type:
+                type: string
+              input: {}
+              ctx:
+                type: object
+  auth: 'Authorization: Bearer <token>'
+- operationId: get_product_api_products__product_id__get
+  method: GET
+  path: /api/products/{product_id}
+  summary: Get Product
+  parameters:
+  - name: product_id
+    in: path
+    required: true
+    schema:
+      type: integer
+  requestBody: null
+  responses:
+    '200':
+      type: object
+      additionalProperties: true
+    '422':
+      type: object
+      properties:
+        detail:
+          type: array
+          items:
+            type: object
+            required: *id001
+            properties:
+              loc:
+                type: array
+                items: {}
+              msg:
+                type: string
+              type:
+                type: string
+              input: {}
+              ctx:
+                type: object
+  auth: 'Authorization: Bearer <token>'
+- operationId: health_health_get
+  method: GET
+  path: /health
+  summary: Health
+  parameters: []
+  requestBody: null
+  responses:
+    '200':
+      type: object
+      additionalProperties: true
+  auth: none

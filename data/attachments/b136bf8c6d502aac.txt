@@ -1,2 +1,0 @@
-09:14:50 | INFO    | mall-api-test | → POST http://127.0.0.1:8000/api/auth/login params=None json={'username': 'alice', 'password': 'alice123'}
-09:14:50 | INFO    | mall-api-test | ← POST http://127.0.0.1:8000/api/auth/login 200 3.0ms

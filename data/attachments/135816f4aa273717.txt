@@ -1,8 +1,0 @@
-INFO     mall-api-test:request_client.py:57 → POST http://127.0.0.1:8000/api/orders params=None json={'items': [{'productId': 1, 'quantity': 1}], 'addressId': 1}
-INFO     mall-api-test:request_client.py:61 ← POST http://127.0.0.1:8000/api/orders 200 2.1ms
-INFO     mall-api-test:conftest.py:175 准备测试订单 orderId=10004
-INFO     mall-api-test:request_client.py:57 → GET http://127.0.0.1:8000/api/orders/10004 params=None json=None
-INFO     mall-api-test:request_client.py:61 ← GET http://127.0.0.1:8000/api/orders/10004 200 2.3ms
-INFO     mall-api-test:request_client.py:57 → DELETE http://127.0.0.1:8000/api/orders/10004 params=None json=None
-INFO     mall-api-test:request_client.py:61 ← DELETE http://127.0.0.1:8000/api/orders/10004 200 2.1ms
-INFO     mall-api-test:conftest.py:178 清理测试订单 orderId=10004 -> 200

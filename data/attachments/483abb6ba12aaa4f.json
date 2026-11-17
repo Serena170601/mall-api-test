@@ -1,9 +1,0 @@
-{
-  "status_code": 200,
-  "elapsed_ms": 2.4,
-  "body": {
-    "code": 1002,
-    "message": "商品已下架",
-    "data": null
-  }
-}

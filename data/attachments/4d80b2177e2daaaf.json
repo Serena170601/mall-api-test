@@ -1,9 +1,0 @@
-{
-  "status_code": 404,
-  "elapsed_ms": 2.1,
-  "body": {
-    "code": 4004,
-    "message": "商品不存在",
-    "data": null
-  }
-}

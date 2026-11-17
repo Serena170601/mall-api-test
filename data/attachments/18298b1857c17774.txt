@@ -1,8 +1,0 @@
-10:35:27 | INFO    | mall-api-test | → POST http://127.0.0.1:8000/api/orders params=None json={'items': [{'productId': 1, 'quantity': 1}], 'addressId': 1}
-10:35:27 | INFO    | mall-api-test | ← POST http://127.0.0.1:8000/api/orders 200 1.6ms
-10:35:27 | INFO    | mall-api-test | 准备测试订单 orderId=10003
-10:35:27 | INFO    | mall-api-test | → POST http://127.0.0.1:8000/api/orders/10003/pay params=None json=None
-10:35:27 | INFO    | mall-api-test | ← POST http://127.0.0.1:8000/api/orders/10003/pay 403 1.8ms
-10:35:27 | INFO    | mall-api-test | → DELETE http://127.0.0.1:8000/api/orders/10003 params=None json=None
-10:35:27 | INFO    | mall-api-test | ← DELETE http://127.0.0.1:8000/api/orders/10003 200 1.6ms
-10:35:27 | INFO    | mall-api-test | 清理测试订单 orderId=10003 -> 200

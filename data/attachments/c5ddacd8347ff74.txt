@@ -1,0 +1,12 @@
+11:01:55 | INFO    | mall-api-test | → POST http://127.0.0.1:8000/api/auth/login params=None json={'username': 'carol', 'password': 'wrong-0'}
+11:01:55 | INFO    | mall-api-test | ← POST http://127.0.0.1:8000/api/auth/login 200 1.1ms
+11:01:55 | INFO    | mall-api-test | → POST http://127.0.0.1:8000/api/auth/login params=None json={'username': 'carol', 'password': 'wrong-1'}
+11:01:55 | INFO    | mall-api-test | ← POST http://127.0.0.1:8000/api/auth/login 200 1.1ms
+11:01:55 | INFO    | mall-api-test | → POST http://127.0.0.1:8000/api/auth/login params=None json={'username': 'carol', 'password': 'wrong-2'}
+11:01:55 | INFO    | mall-api-test | ← POST http://127.0.0.1:8000/api/auth/login 200 1.1ms
+11:01:55 | INFO    | mall-api-test | → POST http://127.0.0.1:8000/api/auth/login params=None json={'username': 'carol', 'password': 'wrong-3'}
+11:01:55 | INFO    | mall-api-test | ← POST http://127.0.0.1:8000/api/auth/login 200 1.0ms
+11:01:55 | INFO    | mall-api-test | → POST http://127.0.0.1:8000/api/auth/login params=None json={'username': 'carol', 'password': 'wrong-4'}
+11:01:55 | INFO    | mall-api-test | ← POST http://127.0.0.1:8000/api/auth/login 200 1.0ms
+11:01:55 | INFO    | mall-api-test | → POST http://127.0.0.1:8000/api/auth/login params=None json={'username': 'carol', 'password': 'carol123'}
+11:01:55 | INFO    | mall-api-test | ← POST http://127.0.0.1:8000/api/auth/login 429 1.0ms

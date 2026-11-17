@@ -1,2 +1,0 @@
-INFO     mall-api-test:request_client.py:57 → POST http://127.0.0.1:8000/api/cart/items params=None json={'productId': 4, 'quantity': 1}
-INFO     mall-api-test:request_client.py:61 ← POST http://127.0.0.1:8000/api/cart/items 200 1.4ms

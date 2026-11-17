@@ -1,2 +1,0 @@
-10:11:45 | INFO    | mall-api-test | → GET http://127.0.0.1:8000/api/products params={'page': 1, 'size': 50} json=None
-10:11:45 | INFO    | mall-api-test | ← GET http://127.0.0.1:8000/api/products 200 1.4ms

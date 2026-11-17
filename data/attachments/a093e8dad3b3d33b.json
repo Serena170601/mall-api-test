@@ -1,9 +1,0 @@
-{
-  "status_code": 403,
-  "elapsed_ms": 1.8,
-  "body": {
-    "code": 4003,
-    "message": "无权查看他人订单",
-    "data": null
-  }
-}

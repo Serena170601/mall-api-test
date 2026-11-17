@@ -1,0 +1,14 @@
+{
+  "status_code": 200,
+  "elapsed_ms": 2.2,
+  "body": {
+    "code": 0,
+    "message": "ok",
+    "data": {
+      "total": 0,
+      "page": 1,
+      "size": 10,
+      "items": []
+    }
+  }
+}

@@ -1,9 +1,0 @@
-{
-  "status_code": 200,
-  "elapsed_ms": 1.4,
-  "body": {
-    "code": 2002,
-    "message": "库存不足",
-    "data": null
-  }
-}

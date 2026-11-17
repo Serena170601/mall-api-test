@@ -1,0 +1,9 @@
+{
+  "status_code": 409,
+  "elapsed_ms": 1.4,
+  "body": {
+    "code": 3001,
+    "message": "订单当前状态 PAID 不允许支付",
+    "data": null
+  }
+}

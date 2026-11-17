@@ -1,0 +1,6 @@
+10:11:45 | INFO    | mall-api-test | → POST http://127.0.0.1:8000/api/orders params=None json={'items': [{'productId': 2, 'quantity': 1}], 'addressId': 1}
+10:11:45 | INFO    | mall-api-test | ← POST http://127.0.0.1:8000/api/orders 200 1.5ms
+10:11:45 | INFO    | mall-api-test | → POST http://127.0.0.1:8000/api/orders/10006/pay params=None json=None
+10:11:45 | INFO    | mall-api-test | ← POST http://127.0.0.1:8000/api/orders/10006/pay 200 1.4ms
+10:11:45 | INFO    | mall-api-test | → DELETE http://127.0.0.1:8000/api/orders/10006 params=None json=None
+10:11:45 | INFO    | mall-api-test | ← DELETE http://127.0.0.1:8000/api/orders/10006 409 1.3ms

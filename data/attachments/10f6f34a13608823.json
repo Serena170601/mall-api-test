@@ -1,0 +1,15 @@
+{
+  "status_code": 200,
+  "elapsed_ms": 1.4,
+  "body": {
+    "code": 0,
+    "message": "ok",
+    "data": {
+      "token": "eyJzdWIiOiJhbGljZSIsInVpZCI6MTAwMSwicm9sZSI6InVzZXIiLCJleHAiOjE3OTQ5MTc1MDV9.b5e983136ebeb981797e63b379334355",
+      "userId": 1001,
+      "username": "alice",
+      "role": "user",
+      "expiresIn": 7200
+    }
+  }
+}

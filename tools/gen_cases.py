@@ -81,6 +81,19 @@ def build_prompt(operations: list[dict]) -> str:
     )
 
 
+def load_env_file() -> None:
+    """读取项目根目录 .env（已 gitignore），已存在的环境变量优先。"""
+    env_file = ROOT / ".env"
+    if not env_file.exists():
+        return
+    for line in env_file.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        os.environ.setdefault(key.strip(), value.strip().strip("\"'"))
+
+
 def call_llm(prompt: str) -> dict:
     api_key = os.getenv("LLM_API_KEY") or os.getenv("OPENAI_API_KEY")
     base_url = os.getenv("LLM_BASE_URL", "https://api.openai.com/v1").rstrip("/")
@@ -139,6 +152,7 @@ def main() -> None:
     parser.add_argument("--out", default=str(OUT_PATH))
     args = parser.parse_args()
 
+    load_env_file()
     operations = load_operations()
     prompt = build_prompt(operations)
     PROMPT_PATH.parent.mkdir(parents=True, exist_ok=True)

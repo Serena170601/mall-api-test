@@ -1,6 +1,6 @@
 """请求封装层：统一 base_url、token 注入、超时、重试、日志与 Allure 附件。
 
-封装层解决的问题（面试要能一句话讲清）：
+封装层解决的问题：
 - 用例里不再出现 url 拼接、headers 拼装、超时/重试散落；
 - token 只在 Session 上设置一次，避免每条用例重复登录；
 - 请求与响应统一落盘到 Allure，失败时无需翻控制台即可复现；
@@ -28,6 +28,8 @@ class RequestClient:
         self.base_url = settings.base_url
         self.timeout = settings.timeout
         self.session = requests.Session()
+        # 被测服务在本机/内网时不应走系统代理，否则健康检查会被代理返回 404
+        self.session.trust_env = False
         retry_cfg = settings.retry
         retry = Retry(
             total=int(retry_cfg.get("total", 2)),

@@ -35,7 +35,10 @@ def _port(base_url: str) -> int:
 
 def _healthy(base_url: str) -> bool:
     try:
-        return requests.get(f"{base_url}/health", timeout=1).status_code == 200
+        # 禁用环境代理：被测服务在本机，走系统代理会拿到代理的 404
+        return requests.get(
+            f"{base_url}/health", timeout=1, proxies={"http": None, "https": None}
+        ).status_code == 200
     except requests.RequestException:
         return False
 
@@ -97,7 +100,8 @@ def pytest_configure(config: pytest.Config) -> None:
 
     # 每次会话开始重置靶场数据，避免库存/限流计数被上一次运行污染
     try:
-        resp = requests.post(f"{base_url}/api/_test/reset", timeout=3)
+        resp = requests.post(f"{base_url}/api/_test/reset", timeout=3,
+                             proxies={"http": None, "https": None})
         if resp.status_code == 200:
             log.info("靶场数据已重置")
         else:
@@ -130,6 +134,7 @@ def _login(base_url: str, username: str, password: str) -> str:
         f"{base_url}/api/auth/login",
         json={"username": username, "password": password},
         timeout=5,
+        proxies={"http": None, "https": None},
     )
     payload = assert_business_ok(resp)
     return payload["data"]["token"]

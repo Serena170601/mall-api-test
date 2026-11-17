@@ -109,9 +109,12 @@ YAML 是人和机器都能审的格式：AI 输出的用例草稿先写成 YAML�
 ## AI 辅助用例生成
 
 ```bash
+# 方式一：项目根目录 .env（已 gitignore），只填 key 即可
+#   LLM_API_KEY=sk-xxx
+#   LLM_BASE_URL=https://api.deepseek.com/v1
+#   LLM_MODEL=deepseek-chat
+# 方式二：临时环境变量，优先级高于 .env
 set LLM_API_KEY=sk-xxx
-set LLM_BASE_URL=https://api.deepseek.com/v1
-set LLM_MODEL=deepseek-chat
 
 python tools/extract_openapi.py                 # 抓 /openapi.json -> operations.yaml
 python tools/gen_cases.py --dry-run             # 先看 prompt，不花钱

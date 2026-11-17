@@ -80,7 +80,7 @@ cases:
       schema: product
       jsonpath:
         $.data.id: 1
-        $.data.price: 999.0
+        $.data.price: 998.0
       not_null: ["$.data.name", "$.data.category"]
 
   - id: product_detail_not_found

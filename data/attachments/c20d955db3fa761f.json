@@ -1,0 +1,16 @@
+{
+  "status_code": 200,
+  "elapsed_ms": 1.4,
+  "body": {
+    "code": 0,
+    "message": "ok",
+    "data": {
+      "id": 2,
+      "name": "机械键盘 87 键",
+      "price": 399.0,
+      "stock": 1,
+      "onSale": true,
+      "category": "外设"
+    }
+  }
+}

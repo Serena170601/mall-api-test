@@ -1,0 +1,12 @@
+INFO     mall-api-test:request_client.py:59 → POST http://127.0.0.1:8000/api/auth/login params=None json={'username': 'carol', 'password': 'wrong-0'}
+INFO     mall-api-test:request_client.py:63 ← POST http://127.0.0.1:8000/api/auth/login 200 1.1ms
+INFO     mall-api-test:request_client.py:59 → POST http://127.0.0.1:8000/api/auth/login params=None json={'username': 'carol', 'password': 'wrong-1'}
+INFO     mall-api-test:request_client.py:63 ← POST http://127.0.0.1:8000/api/auth/login 200 1.0ms
+INFO     mall-api-test:request_client.py:59 → POST http://127.0.0.1:8000/api/auth/login params=None json={'username': 'carol', 'password': 'wrong-2'}
+INFO     mall-api-test:request_client.py:63 ← POST http://127.0.0.1:8000/api/auth/login 200 1.0ms
+INFO     mall-api-test:request_client.py:59 → POST http://127.0.0.1:8000/api/auth/login params=None json={'username': 'carol', 'password': 'wrong-3'}
+INFO     mall-api-test:request_client.py:63 ← POST http://127.0.0.1:8000/api/auth/login 200 1.0ms
+INFO     mall-api-test:request_client.py:59 → POST http://127.0.0.1:8000/api/auth/login params=None json={'username': 'carol', 'password': 'wrong-4'}
+INFO     mall-api-test:request_client.py:63 ← POST http://127.0.0.1:8000/api/auth/login 200 1.0ms
+INFO     mall-api-test:request_client.py:59 → POST http://127.0.0.1:8000/api/auth/login params=None json={'username': 'carol', 'password': 'carol123'}
+INFO     mall-api-test:request_client.py:63 ← POST http://127.0.0.1:8000/api/auth/login 429 1.0ms

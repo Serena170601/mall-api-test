@@ -1,9 +1,0 @@
-{
-  "status_code": 403,
-  "elapsed_ms": 2.2,
-  "body": {
-    "code": 4003,
-    "message": "无权限访问，需要管理员角色",
-    "data": null
-  }
-}

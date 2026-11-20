@@ -1,2 +1,0 @@
-08:29:08 | INFO    | mall-api-test | → POST http://127.0.0.1:8000/api/orders params=None json={'items': [{'productId': 4, 'quantity': 1}], 'addressId': 1}
-08:29:08 | INFO    | mall-api-test | ← POST http://127.0.0.1:8000/api/orders 200 1.6ms

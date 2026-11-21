@@ -1,0 +1,2 @@
+08:04:03 | INFO    | mall-api-test | → GET http://127.0.0.1:8000/api/products params={'keyword': '完全不存在的商品xyz'} json=None
+08:04:03 | INFO    | mall-api-test | ← GET http://127.0.0.1:8000/api/products 200 1.1ms

@@ -1,9 +1,0 @@
-{
-  "status_code": 400,
-  "elapsed_ms": 1.3,
-  "body": {
-    "code": 1101,
-    "message": "size 取值范围为 1-50",
-    "data": null
-  }
-}

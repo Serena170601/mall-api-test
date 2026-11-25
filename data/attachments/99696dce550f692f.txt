@@ -1,2 +1,0 @@
-10:43:34 | INFO    | mall-api-test | → GET http://127.0.0.1:8000/api/auth/profile params=None json=None
-10:43:34 | INFO    | mall-api-test | ← GET http://127.0.0.1:8000/api/auth/profile 401 1.9ms

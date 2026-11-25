@@ -1,0 +1,19 @@
+{
+  "status_code": 422,
+  "elapsed_ms": 0.9,
+  "body": {
+    "detail": [
+      {
+        "type": "missing",
+        "loc": [
+          "body",
+          "password"
+        ],
+        "msg": "Field required",
+        "input": {
+          "username": "alice"
+        }
+      }
+    ]
+  }
+}

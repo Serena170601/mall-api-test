@@ -1,0 +1,2 @@
+09:38:41 | INFO    | mall-api-test | → GET http://127.0.0.1:8000/api/products/999 params=None json=None
+09:38:41 | INFO    | mall-api-test | ← GET http://127.0.0.1:8000/api/products/999 404 1.1ms

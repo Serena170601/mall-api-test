@@ -1,9 +1,0 @@
-{
-  "status_code": 409,
-  "elapsed_ms": 1.6,
-  "body": {
-    "code": 3002,
-    "message": "订单当前状态 PAID 不允许取消",
-    "data": null
-  }
-}

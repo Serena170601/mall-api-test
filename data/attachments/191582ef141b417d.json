@@ -1,0 +1,25 @@
+{
+  "status_code": 200,
+  "elapsed_ms": 1.6,
+  "body": {
+    "code": 0,
+    "message": "ok",
+    "data": {
+      "orderId": 10002,
+      "userId": 1001,
+      "status": "CREATED",
+      "items": [
+        {
+          "productId": 1,
+          "name": "红米 Note 13",
+          "price": 999.0,
+          "quantity": 1
+        }
+      ],
+      "totalAmount": 999.0,
+      "addressId": 1,
+      "createdAt": "2026-11-26 09:14:25",
+      "paidAt": null
+    }
+  }
+}

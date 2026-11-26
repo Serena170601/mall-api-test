@@ -1,0 +1,2 @@
+INFO     mall-api-test:request_client.py:59 → POST http://127.0.0.1:8000/api/auth/login params=None json={'username': 'alice'}
+INFO     mall-api-test:request_client.py:63 ← POST http://127.0.0.1:8000/api/auth/login 422 1.1ms

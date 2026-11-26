@@ -1,0 +1,25 @@
+{
+  "status_code": 200,
+  "elapsed_ms": 1.8,
+  "body": {
+    "code": 0,
+    "message": "ok",
+    "data": {
+      "orderId": 10006,
+      "userId": 1001,
+      "status": "CREATED",
+      "items": [
+        {
+          "productId": 2,
+          "name": "机械键盘 87 键",
+          "price": 399.0,
+          "quantity": 1
+        }
+      ],
+      "totalAmount": 399.0,
+      "addressId": 1,
+      "createdAt": "2026-11-26 09:14:25",
+      "paidAt": null
+    }
+  }
+}

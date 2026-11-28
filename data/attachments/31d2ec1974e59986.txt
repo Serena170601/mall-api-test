@@ -1,2 +1,0 @@
-INFO     mall-api-test:request_client.py:59 → GET http://127.0.0.1:8000/api/products params={'size': 51} json=None
-INFO     mall-api-test:request_client.py:63 ← GET http://127.0.0.1:8000/api/products 400 1.7ms

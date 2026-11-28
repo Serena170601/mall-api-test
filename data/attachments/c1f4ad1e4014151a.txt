@@ -1,0 +1,8 @@
+08:42:43 | INFO    | mall-api-test | → GET http://127.0.0.1:8000/api/products/1 params=None json=None
+08:42:43 | INFO    | mall-api-test | ← GET http://127.0.0.1:8000/api/products/1 200 1.0ms
+08:42:43 | INFO    | mall-api-test | → POST http://127.0.0.1:8000/api/orders params=None json={'items': [{'productId': 1, 'quantity': 2}], 'addressId': 1}
+08:42:43 | INFO    | mall-api-test | ← POST http://127.0.0.1:8000/api/orders 200 1.9ms
+08:42:43 | INFO    | mall-api-test | → GET http://127.0.0.1:8000/api/products/1 params=None json=None
+08:42:43 | INFO    | mall-api-test | ← GET http://127.0.0.1:8000/api/products/1 200 1.0ms
+08:42:43 | INFO    | mall-api-test | → DELETE http://127.0.0.1:8000/api/orders/10001 params=None json=None
+08:42:43 | INFO    | mall-api-test | ← DELETE http://127.0.0.1:8000/api/orders/10001 200 1.4ms
